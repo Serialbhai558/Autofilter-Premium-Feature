@@ -7,7 +7,7 @@ class script(object):
 """
 
 
-    GSTART_TXT = """<b>,🍿 Your Perosnal Cinema Experience 🍿</b>
+    GSTART_TXT = """<b>🍿 Your Perosnal Theatre BOt 🍿</b>
 
 <b>ʜᴇʏ {},</b>
 
@@ -228,7 +228,18 @@ Mᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
 
     
     MOVIE_UPDATE_NOTIFY_TXT = """
+</b><a href={poster_url}>📥</a><a href={imdb_url}>New {tag} Added</a></b>
 
+<blockquote>✨ ᴛɪᴛʟᴇ : <code>{filename}</code>
+
+
+🎭 ɢᴇɴʀᴇs : <b>{genres}</b>
+📺 ᴏᴛᴛ        : <b>{ott}</b>
+🎞️ ǫᴜᴀʟɪᴛʏ : <b>{quality}</b>
+🎧 ᴀᴜᴅɪᴏ    : <b>{language}</b>
+🔥 ʀᴀᴛɪɴɢ   : <b>{rating}</b>
+{episodes}
+</blockquote>
 
 
 🔍 <b>Sᴇᴀʀᴄʜ →</b> {search_link}
@@ -247,75 +258,7 @@ sʜᴏᴡɴ ɪɴ : {remaining_seconds} <i>sᴇᴄ</i>⚡️
     LOGO = r"""
     ████████╗███████╗ ██████╗██╗  ██╗ ██████╗     ██╗  ██╗██████╗ ██╗███████╗███████╗██╗  ██╗
 ╚══██╔══╝██╔════╝██╔════╝██║  ██║██╔═══██╗    ██║ ██╔╝██╔══██╗██║██╔════╝██╔════╝██║  ██║
-   ██║   █████╗  ██║     ███import requests
-
-# ✅ RapidAPI IMDb key
-RAPIDAPI_KEY = "47524fbeccmshb63ca494bb8d1d6p13275djsn2f7fa0c1058a"
-
-# Original template
-MOVIE_UPDATE_NOTIFY_TXT = """
-</b><a href={poster_url}>📥</a><a href={imdb_url}>New {tag} Added</a></b>
-
-<blockquote>✨ ᴛɪᴛʟᴇ : <code>{filename}</code>
-
-🎭 ɢᴇɴʀᴇs : <b>{genres}</b>
-📺 ᴏᴛᴛ        : <b>{ott}</b>
-🎞️ ǫᴜᴀʟɪᴛʏ : <b>{quality}</b>
-🎧 ᴀᴜᴅɪᴏ    : <b>{language}</b>
-🔥 ʀᴀᴛɪɴɢ   : <b>{rating}</b>
-{episodes}
-</blockquote>
-"""
-
-# Function to fetch IMDb data from RapidAPI
-def fetch_imdb_data(title):
-    url = "https://imdb8.p.rapidapi.com/title/find"
-    querystring = {"q": title}
-    headers = {
-        "X-RapidAPI-Key": RAPIDAPI_KEY,
-        "X-RapidAPI-Host": "imdb8.p.rapidapi.com"
-    }
-
-    response = requests.get(url, headers=headers, params=querystring)
-    data = response.json()
-
-    if "results" in data and len(data["results"]) > 0:
-        first = data["results"][0]
-        imdb_id = first.get("id", "").split("/")[-2]  # eg: tt1234567
-        poster = first.get("image", {}).get("url")
-        title_name = first.get("title")
-        return {
-            "poster_url": poster or "",
-            "imdb_url": f"https://www.imdb.com/title/{imdb_id}/" if imdb_id else "",
-            "filename": title_name or title
-        }
-    else:
-        return {
-            "poster_url": "",
-            "imdb_url": "",
-            "filename": title
-        }
-
-# Example usage
-movie_title = "Inception"
-movie_info = fetch_imdb_data(movie_title)
-
-# Fill template
-message = MOVIE_UPDATE_NOTIFY_TXT.format(
-    poster_url=movie_info["poster_url"],
-    imdb_url=movie_info["imdb_url"],
-    tag="Movie",
-    filename=movie_info["filename"],
-    genres="Action, Sci-Fi",
-    ott="Netflix",
-    quality="1080p",
-    language="English",
-    rating="8.8",
-    episodes=""
-)
-
-# Send via Telegram bot
-bot.send_message(chat_id=chat_id, text=message, parse_mode="HTML")████║██║   ██║    █████╔╝ ██████╔╝██║███████╗███████╗███████║
+   ██║   █████╗  ██║     ███████║██║   ██║    █████╔╝ ██████╔╝██║███████╗███████╗███████║
    ██║   ██╔══╝  ██║     ██╔══██║██║   ██║    ██╔═██╗ ██╔══██╗██║╚════██║╚════██║██╔══██║
    ██║   ███████╗╚██████╗██║  ██║╚██████╔╝    ██║  ██╗██║  ██║██║███████║███████║██║  ██║
    ╚═╝   ╚══════╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝
@@ -342,7 +285,7 @@ bot.send_message(chat_id=chat_id, text=message, parse_mode="HTML")████�
 ◉ 60 ᴅᴀʏꜱ - 75 ₹  / 75 ꜱᴛᴀʀ
 
 •─────•─────────•─────•
-🏷️ <a href='https://t.me/cinemapopkornup'>ꜱᴜʙꜱᴄʀɪᴘᴛɪᴏɴ ᴘʀᴏᴏꜰ</a>
+🏷️ <a href='https://t.me/iP_Update'>ꜱᴜʙꜱᴄʀɪᴘᴛɪᴏɴ ᴘʀᴏᴏꜰ</a>
 
 ‼️ ᴍᴜꜱᴛ ꜱᴇɴᴅ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ ᴀꜰᴛᴇʀ ᴘᴀʏᴍᴇɴᴛ.
 ‼️ ᴀꜰᴛᴇʀ ꜱᴇɴᴅɪɴɢ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ ɢɪᴠᴇ ᴜꜱ ꜱᴏᴍᴇᴛɪᴍᴇꜱ ᴛᴏ ᴀᴅᴅ ʏᴏᴜ ɪɴ ᴘʀᴇᴍɪᴜᴍ ʟɪꜱᴛ."""
